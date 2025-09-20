@@ -20,7 +20,8 @@
 }
 .widget {
   position: relative;
-  width: 300px;
+  width: 100%; /* Cambio de 300px a 100% por probar*/
+  max-width: 600px; /* Añadido: ancho máximo para que no se vea demasiado ancho en pantallas grandes (video youtube) */
   height: 350px;
   margin: 50px auto;
   background: #fff;

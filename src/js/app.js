@@ -24,24 +24,83 @@ import "../style/index.css";
  */
 function render(variables = {}) {
   console.log("These are the current variables: ", variables); // print on the console
-  // here we ask the logical questions to make decisions on how to build the html
-  // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
+
+  // Portadita
   let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
   if (variables.includeCover == false) cover = "<div class='cover'></div>";
+
+  // Nombre completo con su variable
+  let fullName = "";
+  if (variables.name && variables.lastName) {
+    fullName = `${variables.name} ${variables.lastName}`;
+  } else if (variables.name) {
+    fullName = variables.name;
+  } else if (variables.lastName) {
+    fullName = variables.lastName;
+  } else {
+    fullName = "Your name Your lastname";
+  }
+
+  // Con esto es para el Rol
+  let roleHTML = "";
+  if (variables.role) {
+    roleHTML = `<h2>${variables.role}</h2>`;
+  }
+
+  // Esto para la ubicación
+  let locationHTML = "";
+  if (variables.city && variables.country) {
+    locationHTML = `<h3>${variables.city}, ${variables.country}</h3>`;
+  } else if (variables.city) {
+    locationHTML = `<h3>${variables.city}</h3>`;
+  } else if (variables.country) {
+    locationHTML = `<h3>${variables.country}</h3>`;
+  }
+
+  // Las RRSS
+  let socialMediaHTML = "";
+  const socialLinks = [];
+
+  if (variables.twitter) {
+    socialLinks.push(
+      `<li><a href="https://twitter.com/${variables.twitter}"><i class="fab fa-twitter"></i></a></li>`
+    );
+  }
+  if (variables.github) {
+    socialLinks.push(
+      `<li><a href="https://github.com/${variables.github}"><i class="fab fa-github"></i></a></li>`
+    );
+  }
+  if (variables.linkedin) {
+    socialLinks.push(
+      `<li><a href="https://linkedin.com/in/${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>`
+    );
+  }
+  if (variables.instagram) {
+    socialLinks.push(
+      `<li><a href="https://instagram.com/${variables.instagram}"><i class="fab fa-instagram"></i></a></li>`
+    );
+  }
+
+  // muestros redes sociales si escribo
+  if (socialLinks.length > 0) {
+    const positionClass =
+      variables.socialMediaPosition === "position-left"
+        ? "position-left"
+        : "position-right";
+    socialMediaHTML = `<ul class="${positionClass}">${socialLinks.join(
+      ""
+    )}</ul>`;
+  }
 
   // reset the website body with the new html output
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/school/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
-          </ul>
+          <h1>${fullName}</h1>
+          ${roleHTML}
+          ${locationHTML}
+          ${socialMediaHTML}
         </div>
     `;
 }
